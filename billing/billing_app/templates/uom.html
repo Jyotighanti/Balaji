@@ -1,0 +1,254 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Biiling</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+                margin: 50px auto;
+            }
+
+            .form-container, .right-container {
+                width: 48%;
+                background-color: #fff;
+                padding: 20px;
+                border: 1px solid #d1d1d1;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                color: #333;
+            }
+
+            h2 {
+                text-align: left;
+                color: #004080;
+                border-bottom: 2px solid #004080;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+
+            .form-group {
+                display: flex;
+                margin-bottom: 15px;
+                align-items: center;
+            }
+
+            .form-group label {
+                flex: 1;
+                font-size: 14px;
+                padding-right: 10px;
+                color: #333;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                flex: 3;
+                padding: 8px;
+                border: 1px solid #004080;
+                border-radius: 2px;
+                background-color: #f9f9f9;
+                color: #333;
+            }
+
+            .form-group input:focus,
+            .form-group select:focus,
+            .form-group textarea:focus {
+                border-color: #0073e6;
+                outline: none;
+                background-color: #fff;
+            }
+
+            .btn-group {
+                text-align: right;
+            }
+
+            .btn-group input[type="submit"] {
+                padding: 10px 20px;
+                background-color: #004080;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 14px;
+                border-radius: 2px;
+            }
+
+            .btn-group input[type="submit"]:hover {
+                background-color: #0059b3;
+            }
+
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                margin-top: 15px;
+            }
+
+            .checkbox-group label {
+                margin-left: 10px;
+            }
+
+            table {
+                width: 100%;
+                margin-top: 20px;
+                border-collapse: collapse;
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+
+            th, td {
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+    </head>
+    <body>
+    {% include 'nav.html' %}
+
+        <div class="container">
+            <!-- Left side: Form container -->
+            <div class="form-container">
+                <h2>Unit of Measurement</h2>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="uom">UOM Name:</label>
+                        <input type="text" id="uom" name="uom">
+                    </div>
+                    <div class="form-group">
+                        <label for="gstuom">GST UOM Name:</label>
+                        <input type="text" id="gstuom" name="gstuom">
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" value="Active" id="active" name="active" {% if state.active == 'Active' %}checked{% endif %}>
+                        <label for="active">Is Active:</label>
+                    </div>
+
+                    <div class="btn-group">
+                        <input type="submit" value="Save">
+                    </div>
+                </form>
+            </div>
+
+           <div class="right-container">
+            <h2>UOM List</h2>
+            <div class="form-group">
+                <label for="uomlist">Search UOM Name:</label>
+                <form method="get" action="{% url 'uom' %}">
+                    <input type="text" id="uomSearch" name="search" value="{{ search_query }}" onkeyup="filterTable()">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+                <!-- Example table for displaying state and GST details -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Uom Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for uom in uom %}
+                        <tr>
+                            <td>{{ uom.uom }}</td>
+                            <td>{{ uom.active }}</td>
+                            <td>
+                                <button onclick="openEditModal({{ uom.id }}, '{{ uom.uom }}', '{{ uom.gstuom }}', '{{ uom.active }}')">Edit</button>
+                                 <form action="{% url 'delete_uom' uom.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this UOM?')">Delete</button>
+                                 </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <!-- Edit Modal -->
+    <div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="background-color:#fff; margin:15% auto; padding:20px; width:80%; max-width:500px; border-radius:5px;">
+            <h2>Edit State</h2>
+            <form id="editForm" action="{% url 'update_uom' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="uom_id" name="uom_id">
+                <div class="form-group">
+                    <label for="edit_uom">UOM Name:</label>
+                    <input type="text" id="edit_uom" name="uom" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_gstuom">GST UOM Name:</label>
+                    <input type="text" id="edit_gstuom" name="gstuom" required>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="edit_active" name="active" value="Active">
+                    <label for="edit_active">Is Active:</label>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Update">
+                    <button type="button" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+         function openEditModal(id, uom, gstuom, active) {
+         document.getElementById('uom_id').value = id;
+         document.getElementById('edit_uom').value = uom;
+         document.getElementById('edit_gstuom').value = gstuom;
+
+        // Check the active status and set the checkbox accordingly
+        document.getElementById('edit_active').checked = (active === 'Active');
+
+        document.getElementById('editModal').style.display = 'block';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('editModal')) {
+            closeEditModal();
+        }
+    }
+
+    function filterTable() {
+        const input = document.getElementById('uomSearch').value.toUpperCase();
+        const table = document.querySelector("table");
+        const rows = table.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const cell = row.querySelector('td');
+            if (cell && cell.textContent.toUpperCase().includes(input)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+    </script>
+
+    </body>
+    </html>

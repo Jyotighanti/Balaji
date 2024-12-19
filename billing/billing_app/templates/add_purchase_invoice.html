@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice-container {
+            width: 100%;
+            margin: 10px auto;
+            background: #fff;
+            padding: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .invoice-header {
+            text-align: center;
+            background-color: #2b6dad;
+            color: white;
+            padding: 10px 0;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .invoice-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .invoice-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .form-group-checkbox {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-left: 10px;
+        }
+
+        .form-group-checkbox label {
+            margin-right: 10px;
+        }
+
+        .item-details {
+            margin-top: 20px;
+        }
+
+        .item-details h3 {
+            text-align: left;
+            font-size: 18px;
+            background-color: #2b6dad;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 5px;
+        }
+
+        table input {
+            width: 90%;
+            padding: 5px;
+            border: none;
+            background-color: transparent;
+            text-align: center;
+        }
+
+        table input[readonly] {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
+        .totals-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .totals-section .form-group {
+            width: 200px;
+        }
+
+        .save-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .save-button button {
+            padding: 10px 20px;
+            background-color: #2b6dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .save-button button:hover {
+            background-color: #244d73;
+        }
+    </style>
+</head>
+<body>
+{% include 'nav.html' %}
+<div class="invoice-container">
+    <div class="invoice-header">
+        <h2>Purchase Invoice</h2>
+    </div>
+
+    <div class="invoice-form">
+        <div class="form-group">
+            <label for="bill-date">Bill Date</label>
+            <input type="date" id="bill-date">
+        </div>
+        <div class="form-group">
+            <label for="invoice-number">Invoice Number</label>
+            <input type="text" id="invoice-number">
+        </div>
+        <div class="form-group">
+            <label for="gst-number">My GST Number</label>
+            <select id="gst-number">
+                <option value="29525252NMB">29525252NMB</option>
+            </select>
+        </div>
+        <div class="form-group"></div>
+
+        <div class="form-group">
+            <label for="select-contact">Select Contact</label>
+            <select id="select-contact">
+                <option value="">Select</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="contact-gst">Contact GST Number</label>
+            <input type="text" id="contact-gst">
+        </div>
+        <div class="form-group">
+            <label for="place-supply">Place of Supply</label>
+            <select id="place-supply">
+                <option value="">Select</option>
+            </select>
+        </div>
+        <div class="form-group"></div>
+
+        <div class="form-group-checkbox">
+            <label for="rcm">RCM</label>
+            <input type="checkbox" id="rcm">
+        </div>
+        <div class="form-group-checkbox">
+            <label for="active">Active</label>
+            <input type="checkbox" id="active" checked>
+        </div>
+    </div>
+
+    <div class="totals-section">
+        <div class="form-group">
+            <label for="round-off">Round Off</label>
+            <input type="text" id="round-off">
+        </div>
+        <div class="form-group">
+            <label for="total-payable">Total Payable</label>
+            <input type="text" id="total-payable">
+        </div>
+    </div>
+
+    <div class="item-details">
+        <h3>Item Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>ITC</th>
+                    <th>B.U.P.</th>
+                    <th>Qty</th>
+                    <th>T.AMT</th>
+                    <th>D.AMT</th>
+                    <th>Tax. Value</th>
+                    <th>GST%</th>
+                    <th>IGST%</th>
+                    <th>CGST%</th>
+                    <th>SGST%</th>
+                    <th>IGST AMT</th>
+                    <th>CGST AMT</th>
+                    <th>SGST AMT</th>
+                    <th>Total GST</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Displaying all 10 rows -->
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                     <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                     <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+                <tr>
+                    <td><input type="text"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text" readonly value="0"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="save-button">
+        <button>Save Invoice</button>
+    </div>
+</div>
+</body>
+</html>

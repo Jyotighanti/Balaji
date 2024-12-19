@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales P O</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffe0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: 20px auto;
+              padding: 0; /* Added left and right padding */
+        }
+
+
+.invoice-details,
+.item-details {
+    padding: 0 5px; /* Add padding to invoice and item details */
+}
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+       .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e6e6a9 ;
+    font-weight: bold;
+    margin-top: 10px;  /* Add space above this section */
+
+
+}s
+
+.header-section select {
+    margin-left: 10px;
+    padding: 5px;
+    margin-right: 50px;  /* This will move the dropdown a bit to the left */
+}
+
+        .header-section select,
+        .header-section input {
+            margin-left: 10px;
+            padding: 5px;
+        }
+
+        .invoice-form {
+            background-color: #f2f2a6;
+            border: 1px solid #999;
+            padding: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex: 1 1 150px;
+            padding-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 2 1 calc(30%);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .item-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .item-details th,
+        .item-details td {
+            border: 1px solid #999;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .item-details th {
+            background-color: #e6e6a9;
+            font-size: 0.85rem;
+        }
+
+.item-details td input {
+    width: 50%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.item-details td input +textarea {
+    margin-top: 5px; /* Add space between Pick Item and Description fields */
+}
+
+        .action-buttons {
+            margin: 10px 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .action-buttons button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .action-buttons .remove-row {
+            background-color: #f44336;
+        }
+
+        .action-buttons .remove-row:hover {
+            background-color: #d32f2f;
+        }
+
+         .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .invoice-details {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .invoice-row div {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .invoice-row div:last-child {
+            margin-right: 0;
+        }
+        .invoice-row input {
+            width: 5s0%;
+            padding: 4px;
+            margin-left:5px;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .item-table th {
+            background-color: #f9f9f9;
+        }
+        .item-table input {
+            width: 100px;
+        }
+
+     .total-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Stack the elements vertically */
+}
+
+.total-section p {
+    margin: 10px 0;  /* Add margin to create space between label and p */
+    text-align: right;  /* Aligns text to the right */
+}
+
+.total-section input {
+    width: 150px; /* Adjust input width */
+    align-self: flex-start; /* Align input to the left */
+}
+
+
+      .details-section {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f9f9d8;
+      border: 1px solid #ccc;
+    }
+    .details-section h3 {
+      margin-bottom: 10px;
+
+    }
+    /* Other CSS styles */
+
+    .details-section .form-group {
+    display: flex;
+    justify-content: space-between; /* Arrange all items in one row */
+    gap: 20px; /* Space between input fields */
+    margin-bottom: 10px; /* Add space between rows */
+}
+
+.details-section .form-group .input-group {
+    flex: 1;
+    /* Stack the label below the textarea */
+}
+
+.details-section .form-group label {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.details-section .form-group label {
+    margin-top: 5px;
+    font-size: 1.2rem;  /* Larger label size */
+    font-weight: bold;
+    color: #333;
+}
+
+    .details-section .form-group input,
+    .details-section .form-group textarea {
+        flex: 0 1 ;
+        font-size: 1rem; /* Adjust input and textarea font size */
+        padding: 5px; /* Make sure inputs and textareas have some padding */
+    }
+.details-section .form-group {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping if needed */
+    gap: 20px; /* Adds space between the fields */
+    margin-bottom: 10px; /* Adds space between rows */
+}
+
+
+.details-section .form-group textarea {
+    flex: 1 1 200px; /* Ensures all textareas are the same size and can expand */
+    padding: 5px;
+    font-size: 1rem;
+}
+
+
+
+.details-section .form-group input[type="checkbox"] {
+    margin-top: 5px; /* Adds space above the checkbox */
+}
+
+.details-section .form-group label[for="active"] {
+    flex-basis: 100%; /* Ensures the Active label is on its own line */
+}
+
+
+    .form-group {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      flex: 1;
+      font-weight: bold;
+    }
+    .form-group input, .form-group textarea {
+      flex: 3;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .save-button {
+      text-align: center;
+    }
+    .save-button button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .save-button button:hover {
+      background-color: #0056b3;
+    }
+    </style>
+</head>
+<body>
+  {% include 'nav.html' %}
+            <div class="header-section">
+            <span>PRO TECH SOFTWARE</span>
+            <span>
+                <select>
+                    <option value="29525252NMB">29525252NMB</option>
+                </select>
+                LAST INV. No: 1
+                <select>
+                     <option>Print</option>
+                     <option>Item Only</option>
+                     <option>Item & Desc.</option>
+                    <option>Desc Only.</option>
+                </select>
+                Print Mode:
+                <input type="number" value="2" style="width: 40px;">
+                Print Qty:
+                <input type="checkbox" checked>
+                <select>
+                     <option>-----</option>
+                     <option>Credit</option>
+                    <option>Cash</option>
+                </select>
+                <select>
+                    <option>Select P.O.</option>
+                </select>
+                <select>
+                    <option>Select D.C.</option>
+                </select>
+            </span>
+        </div>
+
+        <div class="header">
+            <h3 > Add Sales P O</h3>
+        </div>
+
+        <div class="invoice-details">
+            <div class="invoice-row">
+                <div>
+                    <label for="invoice-prefix">Invoice No. Prefix</label>
+                    <input type="text" id="invoice-prefix">
+                </div>
+                <div>
+                    <label for="bill-date">Bill Date</label>
+                    <input type="date" id="bill-date">
+                </div>
+                <div>
+                    <label for="invoice-number">Invoice Number</label>
+                    <input type="text" id="invoice-number">
+                </div>
+               <div>
+    <label for="select-contact">Select Contact</label>
+    <select id="select-contact">
+        <option value="">Select Contact</option>
+
+        <!-- Add other contacts as needed -->
+    </select>
+</div>
+                <div>
+                    <label for="contact-name">Contact Name</label>
+                    <input type="text" id="contact-name">
+                </div>
+                <div>
+                    <label for="contact-gst">Contact GST Number</label>
+                    <input type="text" id="contact-gst">
+                </div>
+                <div>
+    <label for="place-of-supply" style="display: block; margin-bottom: 5px;">Place of Supply</label>
+    <select id="place-of-supply" style="display: block;">
+        <option value="">Select</option>
+        <!-- Add other places of supply as needed -->
+    </select>
+</div>
+
+            </div>
+
+            <div class="invoice-row">
+                <div>
+                    <label for="mobile">Mobile</label>
+                    <input type="text" id="mobile">
+                </div>
+                <div>
+                    <label for="pan-no">PAN No.</label>
+                    <input type="text" id="pan-no">
+                </div>
+                <div>
+                    <label for="aadhar-no">Aadhar No.</label>
+                    <input type="text" id="aadhar-no">
+                </div>
+                <div>
+                    <label for="eway-bill">E-way Bill No.</label>
+                    <input type="text" id="eway-bill">
+                </div>
+                <div>
+                    <label for="vehicle-no">Vehicle No.</label>
+                    <input type="text" id="vehicle-no">
+                </div>
+                <div>
+                    <label for="order-ref">Order Ref. No.</label>
+                    <input type="text" id="order-ref">
+                </div>
+                <div>
+                    <label for="transporter">Transporter</label>
+                    <input type="text" id="transporter">
+                </div>
+            </div>
+        </div>
+
+<div class="item-details">
+    <table>
+        <h3>Item Details</h3>
+        <thead>
+            <tr>
+                <th>Pick Item</th>
+                <th>GST%</th>
+                <th>Qty</th>
+                <th>RATE</th>
+                <th>AMT</th>
+                <th>T.I</th>
+                <th>I.AMT</th>
+                <th>IGST%</th>
+                <th>SGST%</th>
+                <th>CGST%</th>
+                <th>B.RATE</th>
+                <th>IGST</th>
+                <th>SGST</th>
+                <th>CGST</th>
+                <th>T.GST</th>
+                <th>S.TOT</th>
+            </tr>
+        </thead>
+        <tbody id="item-table-body">
+            <tr>
+        <td>
+            <input type="text"> <!-- Pick Item -->
+            <textarea rows="2" cols="28" ></textarea> <!-- Nested Description below Pick Item -->
+        </td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="checkbox"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="action-buttons">
+    <button type="button" id="add-row">Add Row</button>
+    <button type="button" id="remove-row" class="remove-row">Remove Last Row</button>
+</div>
+
+
+              <div class="total-section">
+    <p>Sub.Total: <input type="number" readonly /></p>
+    <p>R.Off: <input type="number" readonly /></p>
+    <p>Bill Total: <input type="number" readonly /></p>
+  </div>
+
+<div class="details-section">
+    <h3>Other Details</h3>
+    <div class="form-group">
+        <div class="input-group">
+             <label for="invoice-address">Invoice Address</label>
+            <textarea id="invoice-address" rows="3"></textarea>
+        </div>
+
+        <div class="input-group">
+             <label for="delivery-address">Delivery Address</label>
+            <textarea id="delivery-address" rows="2"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="terms">Terms and Condition</label>
+            <textarea id="terms" rows="2">GOODS ONCE SOLD WILL NOT BE TAKEN BACK</textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="bank-details">Bank Details</label>
+            <textarea id="bank-details" rows="2">CC ACC: 1234569965&#10;IFSC: SBI45852252&#10;BANK: SBI</textarea>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <label for="active">Active</label>
+            <input type="checkbox" id="active" checked />
+        </div>
+    </div>
+      <div class="save-button">
+    <button>Save</button>
+  </div>
+</div>
+
+
+    </div>
+
+<script>
+    const addRowButton = document.getElementById('add-row');
+    const removeRowButton = document.getElementById('remove-row');
+    const tableBody = document.getElementById('item-table-body');
+
+    // Function to add a single row
+    const addRow = () => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>
+                <input type="text" >
+                 <textarea rows="2" cols="30" ></textarea>  <!-- Nested Description below Pick Item -->
+            </td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="checkbox"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+        `;
+        tableBody.appendChild(newRow);
+    };
+
+    // Add 10 rows by default when the page loads
+    for (let i = 0; i < 5; i++) {
+        addRow();
+    }
+
+    // Add row functionality
+    addRowButton.addEventListener('click', () => {
+        addRow();
+    });
+
+    // Remove last row functionality
+    removeRowButton.addEventListener('click', () => {
+        if (tableBody.children.length > 1) {
+            tableBody.removeChild(tableBody.lastChild);
+        }
+    });
+</script>
+
+
+
+</body>
+</html>

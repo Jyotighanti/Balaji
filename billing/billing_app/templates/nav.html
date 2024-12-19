@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+    <!-- Link to Bootstrap (Optional) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Custom Navbar Background Color */
+        .navbar {
+            background-color: #d6e4f0 !important; /* Change this to your desired color */
+
+        }
+
+        /* Custom styles for the main tab */
+        .nav-link {
+            color: #004080; /* Main tab color */
+        }
+
+        /* Change the color of the main tab on hover */
+        .nav-link:hover {
+            background-color: #ddddff; /* Background color on hover */
+            color: #004080; /* Keep text color same on hover */
+        }
+
+        /* Custom styles for dropdown on hover */
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block; /* Show dropdown on hover */
+        }
+
+        /* Custom background color for dropdown items on hover */
+        .dropdown-item:hover {
+            background-color: #f4f4f9; /* Set custom hover color */
+        }
+
+        /* Remove dropdown-toggle button style */
+        .nav-link.dropdown-toggle {
+            cursor: default; /* Change cursor style to default */
+            pointer-events: none; /* Disable clicking */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Dropdown for Setting -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="settingDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Setting
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="settingDropdown">
+                        <a class="dropdown-item" href="{% url 'companymaster' %}">Company Master</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for Masters -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="mastersDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Masters
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="mastersDropdown">
+                        <a class="dropdown-item" href="{% url 'state' %}">STATE</a>
+                        <a class="dropdown-item" href="{% url 'contact' %}">CONTACT</a>
+                        <a class="dropdown-item" href="{% url 'uom' %}">UOM</a>
+                        <a class="dropdown-item" href="{% url 'item' %}">ITEM</a>
+                        <a class="dropdown-item" href="{% url 'bank' %}">BANK</a>
+                        <a class="dropdown-item" href="{% url 'expense' %}">EXPENSE</a>
+<!--                        <a class="dropdown-item" href="{% url 'income' %}">INCOME</a>-->
+                    </div>
+                </li>
+
+                <!-- Dropdown for Sales -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="salesDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Sales
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="salesDropdown">
+                         <a class="dropdown-item" href="{% url 'generate_sales_invoice' %}">Generate Sales Invoice</a>
+                        <a class="dropdown-item" href="{% url 'list_sales_invioce' %}">List Sales Invoice</a>
+                        <a class="dropdown-item" href="{% url 'add_receipt' %}">Add Receipt</a>
+                        <a class="dropdown-item" href="{% url 'list_receipt' %}">List Receipt</a>
+                        <a class="dropdown-item" href="{% url 'generate_sales_invoice' %}">Add P.O.[To Us]</a>
+                        <a class="dropdown-item" href="{% url 'generate_sales_invoice' %}">List P.O.[To Us</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for Purchase -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="purchaseDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Purchase
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="purchaseDropdown">
+                        <a class="dropdown-item" href="{% url 'add_purchase_invoice' %}">Add Purchase Invoice</a>
+                        <a class="dropdown-item" href="{% url 'list_purchase_invoice' %}">List Purchase Invoice</a>
+                        <a class="dropdown-item" href="{% url 'add_payment' %}">Add Payment</a>
+                        <a class="dropdown-item" href="{% url 'list_payment' %}">List Payment</a>                           <a class="dropdown-item" href="{% url 'generate_sales_invoice' %}">Add P.O.</a>
+                        <a class="dropdown-item" href="{% url 'generate_sales_invoice' %}">List P.O.</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for Sales Quotation -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="quotationDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Sales Quotation
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="quotationDropdown">
+                        <a class="dropdown-item" href="{% url 'add_sales_quotation' %}">Add Sales Quotation</a>
+                        <a class="dropdown-item" href="{% url 'list_sales_quotation' %}">List Sales Quotation</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for DC Master -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="dcDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        DC Master
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dcDropdown">
+                        <a class="dropdown-item" href="{% url 'add_incoming_DC' %}">Add Incoming DC</a>
+                        <a class="dropdown-item" href="{% url 'list_incoming_DC' %}">List Incoming DC</a>
+                        <a class="dropdown-item" href="{% url 'add_outgoing_DC' %}">Add Outgoing DC</a>
+                        <a class="dropdown-item" href="{% url 'list_outgoing_DC' %}">List Outgoing DC</a>
+                    </div>
+                </li>
+
+                <!-- Dropdown for Misc -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="miscDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Misc.
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="miscDropdown">
+                        <a class="dropdown-item" href="{% url 'stock_adjustment' %}">Stock Adjustments</a>
+                         <a class="dropdown-item" href="{% url 'contact_balance_adjustment' %}">Contact B.Adjustments</a>
+                         <a class="dropdown-item" href="{% url 'expense_add' %}">Expense Add</a>
+                         <a class="dropdown-item" href="{% url 'expense_list' %}">Expense List</a>
+                         <a class="dropdown-item" href="{% url 'income_add' %}">Income Add</a>
+                         <a class="dropdown-item" href="{% url 'bank_transfer_add' %}">Bank Transfer Add</a>
+
+                    </div>
+                </li>
+
+                <!-- Dropdown for Report -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="reportDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Report
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="reportDropdown">
+                        <a class="dropdown-item" href="{% url 'gstr1' %}">GSTR-1</a>
+                        <a class="dropdown-item" href="{% url 'gstr2' %}">GSTR-2</a>
+                        <a class="dropdown-item" href="{% url 'contact_balance' %}">Contact Balance</a>
+                        <a class="dropdown-item" href="{% url 'contact_ledger' %}">Contact Ledger</a>
+                        <a class="dropdown-item" href="{% url 'stock_balance' %}">Stock Balance</a>
+                        <a class="dropdown-item" href="{% url 'stock_ledger' %}">Stock Ledger</a>
+                        <a class="dropdown-item" href="{% url 'bank_balance' %}">Bank Balance</a>
+                        <a class="dropdown-item" href="{% url 'bank_ledger' %}">Bank Ledger</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sale_invoice' %}">Sale Invoice</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Optional Bootstrap JavaScript (for dropdowns, etc.) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

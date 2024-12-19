@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transfer Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-container {
+            width: 600px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: auto;
+            margin-top:20px;
+        }
+
+        .form-header {
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #3b82c0;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-row label {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .inline-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .inline-group .form-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inline-group .form-item label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .save-button {
+            width: 100px;
+            padding: 10px;
+            background-color: #3b82c0;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: auto;
+            display: block;
+        }
+
+        .save-button:hover {
+            background-color: #306998;
+        }
+    </style>
+</head>
+<body>
+{% include 'nav.html' %}
+    <div class="form-container">
+        <div class="form-header">Bank Transfer Entry</div>
+        <form>
+            <!-- Inline Row: Date, From Bank, To Bank -->
+            <div class="form-row inline-group">
+                <div class="form-item">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date">
+                </div>
+                <div class="form-item">
+                    <label for="from-bank">From Bank</label>
+                    <select id="from-bank" name="from-bank">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label for="to-bank">To Bank</label>
+                    <select id="to-bank" name="to-bank">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Inline Row: Select Mode and Description -->
+            <div class="form-row inline-group">
+                <div class="form-item">
+                    <label for="mode">Select Mode</label>
+                    <select id="mode" name="mode">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="form-item">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="1"></textarea>
+                </div>
+            </div>
+
+            <!-- Inline Row: Transfer Amount, Ref Number, Is Active -->
+            <div class="form-row inline-group">
+                <div class="form-item">
+                    <label for="amount">Transfer Amount</label>
+                    <input type="number" id="amount" name="amount">
+                </div>
+                <div class="form-item">
+                    <label for="ref-number">Ref Number</label>
+                    <input type="text" id="ref-number" name="ref-number">
+                </div>
+                <div class="form-item">
+                    <label for="is-active">Is Active</label>
+                    <input type="checkbox" id="is-active" name="is-active" checked>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="form-row">
+                <button type="submit" class="save-button">SAVE</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

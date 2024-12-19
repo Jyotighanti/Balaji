@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Invoice List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            width: 95%;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #3b5998;
+            color: #fff;
+            padding: 10px 15px;
+            margin-top:10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            background-color: #e6e6e6;
+        }
+
+        .filters .filter-group {
+            display: flex;
+            flex-direction: column;
+            width: 150px;
+        }
+
+        .filters label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .filters .button-group {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        .filters button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .filters button:hover {
+            background-color: #45a049;
+        }
+
+        .table-container {
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #d6e4f0;
+            font-weight: bold;
+        }
+
+        .action-links a {
+            color: #3b5998;
+            text-decoration: none;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+
+        .highlight {
+            background-color: #e6f7ff;
+        }
+    </style>
+</head>
+<body>
+ {% include 'nav.html' %}
+
+ <div class="container">
+        <div class="header">List Quotations</div>
+
+        <div class="filters">
+
+            <div class="filter-group">
+                <label for="invoice">Invoice #</label>
+                <input type="text" id="invoice" placeholder="Enter Invoice">
+            </div>
+            <div class="filter-group">
+                <label for="contact">Contact</label>
+                <select id="contact">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="from">FROM</label>
+                <input type="text" id="from" placeholder="From">
+            </div>
+            <div class="filter-group">
+                <label for="to">TO</label>
+                <input type="text" id="to" placeholder="To">
+            </div>
+
+
+            <div class="filter-group">
+                <label for="status">Status</label>
+                <select id="status">
+                    <option value="all">ALL</option>
+                    <option value="all">ACTIVE</option>
+                    <option value="all">CANCLLED</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button type="button">Search</button>
+<!--                <button type="button">Export</button>-->
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Q.DATE</th>
+                        <th>Quotation #</th>
+                        <th>Contact</th>
+
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>07-12-2024</td>
+                        <td>1</td>
+                        <td>ROHIT</td>
+                         <td>20,295.00</td>
+
+                        <td>Active</td>
+                        <td class="action-links">
+                            <a href="#">Edit</a> |
+                            <a href="#">Print</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

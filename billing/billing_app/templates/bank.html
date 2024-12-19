@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Billing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin: 50px auto;
+        }
+
+        .form-container, .right-container {
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #d1d1d1;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+         .right-container {
+            width: 80%;
+            padding: 20px;
+            margin-left: 20px;
+        }
+
+
+
+        h2 {
+            text-align: left;
+            color: #004080;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #004080;
+            border-radius: 2px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0073e6;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .btn-group input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #004080;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+
+        .btn-group input[type="submit"]:hover {
+            background-color: #0059b3;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Styling for action buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-evenly;  /* Space buttons evenly */
+            width: 180px; /* You can adjust the width as needed */
+        }
+    </style>
+</head>
+<body>
+{% include 'nav.html' %}
+
+    <div class="container">
+        <!-- Left side: Form container -->
+        <div class="form-container">
+            <h2>Bank Master</h2>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="bankname">Bank Name:</label>
+                    <input type="text" id="bankname" name="bankname">
+                </div>
+                <div class="form-group">
+                    <label for="accountNo">Account No:</label>
+                    <input type="text" id="accountNo" name="accountNo">
+                </div>
+                <div class="form-group">
+                    <label for="ifsc">IFSC Code:</label>
+                    <input type="text" id="ifsc" name="IFSC">
+                </div>
+                <div class="form-group">
+                    <label for="address">Branch Address:</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="details">Full Details:</label>
+                    <textarea id="details" name="details" rows="3"></textarea>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" value="Active" id="active" checked name="active" {% if state.active == 'Active' %}checked{% endif %}>
+                    <label for="active">Is Active:</label>
+                </div>
+
+                <div class="btn-group">
+                    <input type="submit" value="Save">
+                </div>
+            </form>
+        </div>
+
+<!-- Right side: Display data -->
+<div class="right-container">
+    <h2>Bank List</h2>
+
+    <!-- Search form for Bank Name -->
+    <form method="GET" action="{% url 'bank' %}">
+        <div class="form-group d-flex align-items-center">
+            <label for="search" class="mr-3">Search Bank Name:</label>
+            <input type="text" id="search" name="search" value="{{ search_query }}" class="form-control" placeholder="Search by bank name" style="flex: 1; margin-right: 10px;">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+            <!-- Example table for displaying state and GST details -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bank Name</th>
+                        <th>Account No</th>
+                        <th>IFSC Code</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+               <tbody>
+                {% for bank in bank %}
+                    <tr>
+                        <td>{{ bank.bankname }}</td>
+                        <td>{{ bank.accountNo }}</td>
+                        <td>{{ bank.IFSC }}</td>
+                        <td>{{ bank.active }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="openEditModal({{ bank.id }}, '{{ bank.bankname }}', '{{ bank.accountNo }}', '{{ bank.IFSC }}', '{{ bank.address }}', '{{ bank.details }}' , '{{ bank.active }}')">Edit</button>
+                                <button class="btn btn-danger" onclick="window.location.href='{% url 'delete_bank' bank.id %}'">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   <!-- Modal Structure -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Contact</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" action="{% url 'update_bank' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="bank_id" name="bank_id">
+
+            <!-- First Row: Company Name and Prefix -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_bankname">Bank Name:</label>
+                        <input type="text" id="edit_bankname" class="form-control" name="bankname" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_accountNo">Account No:</label>
+                        <input type="text" id="edit_accountNo" class="form-control" name="accountNo" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row: Contact Person and Mobile Number -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_ifsc">IFSC Code:</label>
+                        <input type="text" id="edit_ifsc" class="form-control" name="IFSC" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_address">Branch Address:</label>
+                        <textarea id="edit_address" class="form-control" name="address" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row: E-Mail and Website -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_details">Full Deatils:</label>
+                        <textarea id="edit_details" class="form-control" name="details" rows="3"></textarea>
+                    </div>
+                </div>
+                 <div class="col-md-6">
+                    <div class="form-group">
+                       <div class="form-check">
+    <input type="checkbox" id="edit_active" name="active" class="form-check-input" {% if contact.active == 'Active' %}checked{% endif %}>
+    <label for="edit_active" class="form-check-label">Is Active:</label>
+</div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function openEditModal(id, bankname, accountNo, IFSC, address, details, active) {
+        $('#bank_id').val(id);
+        $('#edit_bankname').val(bankname);
+        $('#edit_accountNo').val(accountNo);
+        $('#edit_ifsc').val(IFSC);
+        $('#edit_address').val(address);
+        $('#edit_details').val(details);
+
+    $('#edit_active').prop('checked', active === 'Active');  // Set checkbox based on the active status
+        $('#editModal').modal('show');
+    }
+</script>
+
+</body>
+</html>

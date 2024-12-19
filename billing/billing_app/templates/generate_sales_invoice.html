@@ -1,0 +1,1120 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Invoice</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffe0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 95%;
+            margin: 20px auto;
+              padding: 0; /* Added left and right padding */
+        }
+
+
+.invoice-details,
+.item-details {
+    padding: 0 5px; /* Add padding to invoice and item details */
+}
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+       .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e6e6a9 ;
+    font-weight: bold;
+    margin-top: 10px;  /* Add space above this section */
+
+
+}s
+
+.header-section select {
+    margin-left: 10px;
+    padding: 5px;
+    margin-right: 50px;  /* This will move the dropdown a bit to the left */
+}
+
+        .header-section select,
+        .header-section input {
+            margin-left: 10px;
+            padding: 5px;
+        }
+
+        .invoice-form {
+            background-color: #f2f2a6;
+            border: 1px solid #999;
+            padding: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex: 1 1 150px;
+            padding-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            flex: 2 1 calc(30%);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+/* Ensure the table takes full width and removes extra spaces */
+.item-details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.item-details th,
+.item-details td {
+    border: 1px solid #999;
+    text-align: center;
+    padding: 5px;  /* Adjust padding inside the cells */
+}
+
+/* Style for the table header */
+.item-details th {
+    background-color: #e6e6a9;
+    font-size: 0.85rem;
+}
+
+/* Adjust the input fields inside the table */
+.item-details td input {
+    width: 90%;  /* Adjust the width of the input fields */
+    padding: 3px;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+/* Slight space between input and textarea for description */
+.item-details td input + textarea {
+    margin-top: 2px;
+}
+
+/* Optional: Reduce padding for better space utilization */
+.item-details td {
+    padding: 5px;  /* Reduces padding inside table cells */
+}
+
+/* Header font size */
+.item-details th {
+    font-size: 0.9rem;
+    padding: 8px;
+}
+
+/* Style the input fields in the totals section (Sub.Total, R.Off, Bill Total) */
+.total-input {
+    width: 60%;  /* Make the input fields smaller */
+    padding: 3px;
+    text-align: left; /* Align input text to the left */
+    margin-left: 20px; /* Align input slightly to the left for a neat look */
+}
+
+/* Adjust the style of the last column input in the total section */
+tfoot td input {
+    width: 60%;  /* Adjust the width of the inputs in the totals section */
+    margin-left: 20px;  /* Space the inputs from the edge */
+    text-align: left;  /* Align text to the left inside inputs */
+}
+
+/* Ensure the total section inputs are positioned correctly below the last column */
+tfoot td {
+    padding: 5px;
+    text-align: left;
+}
+
+/* Additional space before the totals section */
+tfoot {
+    margin-top: 10px;  /* Add space before totals section */
+}
+
+/* Optional: Add bottom padding for the table */
+.item-details table tfoot {
+    margin-top: 15px;
+}
+
+
+
+        .action-buttons {
+            margin: 10px 0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .action-buttons button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            background-color: #45a049;
+        }
+
+        .action-buttons .remove-row {
+            background-color: #f44336;
+        }
+
+        .action-buttons .remove-row:hover {
+            background-color: #d32f2f;
+        }
+
+         .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .invoice-details {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .invoice-row div {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .invoice-row div:last-child {
+            margin-right: 0;
+        }
+        .invoice-row input {
+            width: 5s0%;
+            padding: 4px;
+            margin-left:5px;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .item-table th, .item-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        .item-table th {
+            background-color: #f9f9f9;
+        }
+        .item-table input {
+            width: 100px;
+        }
+
+
+      .details-section {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f9f9d8;
+      border: 1px solid #ccc;
+    }
+    .details-section h3 {
+      margin-bottom: 10px;
+
+    }
+    /* Other CSS styles */
+
+    .details-section .form-group {
+    display: flex;
+    justify-content: space-between; /* Arrange all items in one row */
+    gap: 20px; /* Space between input fields */
+    margin-bottom: 10px; /* Add space between rows */
+}
+
+.details-section .form-group .input-group {
+    flex: 1;
+    /* Stack the label below the textarea */
+}
+
+.details-section .form-group label {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.details-section .form-group label {
+    margin-top: 5px;
+    font-size: 1.2rem;  /* Larger label size */
+    font-weight: bold;
+    color: #333;
+}
+
+    .details-section .form-group input,
+    .details-section .form-group textarea {
+        flex: 0 1 ;
+        font-size: 1rem; /* Adjust input and textarea font size */
+        padding: 5px; /* Make sure inputs and textareas have some padding */
+    }
+.details-section .form-group {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping if needed */
+    gap: 20px; /* Adds space between the fields */
+    margin-bottom: 10px; /* Adds space between rows */
+}
+
+
+.details-section .form-group textarea {
+    flex: 1 1 200px; /* Ensures all textareas are the same size and can expand */
+    padding: 5px;
+    font-size: 1rem;
+}
+
+
+
+.details-section .form-group input[type="checkbox"] {
+    margin-top: 5px; /* Adds space above the checkbox */
+}
+
+.details-section .form-group label[for="active"] {
+    flex-basis: 100%; /* Ensures the Active label is on its own line */
+}
+
+
+    .form-group {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      flex: 1;
+      font-weight: bold;
+    }
+    .form-group input, .form-group textarea {
+      flex: 3;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .save-button {
+      text-align: center;
+    }
+    .save-button button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .save-button button:hover {
+      background-color: #0056b3;
+    }
+
+/* Add space below the itemname input and description box */
+#item-table-body input.itemname-input,
+#item-table-body textarea.item-description {
+    margin-bottom: 5px; /* Adjust the value to control the space */
+}
+    </style>
+</head>
+<body>
+  {% include 'nav.html' %}
+<form id="invoice-form" method="POST" action="{% url 'generate_sales_invoice' %}" enctype="multipart/form-data">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    {% csrf_token %}
+
+    <div class="header-section">
+        <span>PRO TECH SOFTWARE</span>
+        <span>
+            <select id="companygst" name="companygst">
+                <option value="{{ company.GST }}">{{ company.GST }}</option>
+            </select>
+
+            <select id="last_inv">
+                <option id="print" name="print">Print</option>
+                <option id="item_only" name="item_only ">Item Only</option>
+                <option id="desc_item" name="desc_item">Item & Desc.</option>
+                <option id="desc_only" name="desc_only">Desc Only.</option>
+            </select>
+            Print Mode:
+            <input type="number" value="2" style="width: 40px;">
+            Print Qty:
+            <input type="checkbox" checked>
+            <select id="payment" name="payment">
+                <option>-----</option>
+                <option>Credit</option>
+                <option>Cash</option>
+            </select>
+            <select id="sales_po" name="sales_po">
+                <option>Select P.O.</option>
+            </select>
+            <select id="sales_dc" name="sales_dc">
+                <option>Select D.C.</option>
+            </select>
+        </span>
+    </div>
+
+    <div class="header">
+        <h3>Sales Invoice</h3>
+    </div>
+
+    <div class="invoice-details">
+        <div class="invoice-row">
+            <div>
+                <label for="invoice_no_prefix">Invoice No Prefix:</label>
+    <input
+        type="text" id="invoice_no_prefix" name="invoice_no_prefix" value="{{company.invoice_no_prefix}}{{ next_invoice_number }}" readonly>
+            </div>
+            <div>
+                <label for="bill-date">Bill Date</label>
+                <input type="date" id="bill-date" name="bill_date">
+            </div>
+          <div>
+               <label for="invoice_number">Invoice Number:</label>
+              <input type="text" id="invoice_number" name="invoice_number" value="{{ next_invoice_number }}" oninput="updateInvoicePrefix()">
+           </div>
+
+            <div>
+                <label for="select-contact">Select Contact</label>
+               <select id="select-contact" name="contact" onchange="fetchAddress(this)">
+                    <option value="">Select Contact</option>
+                    {% for contact in contacts %}
+                        <option value="{{ contact.id }}" data-address="{{ contact.address }}">{{ contact.companyname }}</option>
+                    {% empty %}
+                        <option>No contacts available</option>
+                    {% endfor %}
+               </select>
+            </div>
+            <div>
+                <label for="contact-name">Contact Name</label>
+                <input type="text" id="contact-name" name="contact_name">
+            </div>
+            <div>
+                <label for="contact-gst">Contact GST Number</label>
+                <input type="text" id="contact-gst" name="contact_gst_number">
+            </div>
+            <div>
+                <label for="place-of-supply">Place of Supply</label>
+                <select id="place-of-supply" name="statename">
+                    <option value="">Select State</option>
+                    {% for state in states %}
+                        <option value="{{ state.statename }}">{{ state.statename }}</option>
+                    {% empty %}
+                        <option>No states available</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="invoice-row">
+            <div>
+                <label for="mobile">Mobile</label>
+                <input type="text" id="mobile" name="mobile">
+            </div>
+            <div>
+                <label for="pan-no">PAN No.</label>
+                <input type="text" id="pan-no" name="pan_no">
+            </div>
+            <div>
+                <label for="aadhar-no">Aadhar No.</label>
+                <input type="text" id="aadhar-no" name="aadhar_no">
+            </div>
+            <div>
+                <label for="eway-bill">E-way Bill No.</label>
+                <input type="text" id="eway-bill" name="e_way_bill_no">
+            </div>
+            <div>
+                <label for="vehicle-no">Vehicle No.</label>
+                <input type="text" id="vehicle-no" name="vehicle_no">
+            </div>
+            <div>
+                <label for="order-ref">Order Ref. No.</label>
+                <input type="text" id="order-ref" name="order_ref_no">
+            </div>
+            <div>
+                <label for="transporter">Transporter</label>
+                <input type="text" id="transporter" name="transporter">
+            </div>
+        </div>
+    </div>
+
+<div class="item-details">
+    <h3>Item Details</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>GST%</th>
+                <th>Qty</th>
+                <th>RATE</th>
+                <th>AMT</th>
+                <th>T.I</th>
+                <th>B.Rate</th>
+                <th>SGST%</th>
+                <th>CGST%</th>
+                <th>SGST</th>
+                <th>CGST</th>
+                <th>T.GST</th>
+                <th>S.TOT</th>
+            </tr>
+        </thead>
+        <tbody id="item-table-body"></tbody>
+        <tfoot>
+            <tr>
+                <td><b>Sub.Total:</b></td>
+                <td colspan="12"><input type="number" id="sub-total" name="sub_total" readonly class="total-input"></td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <select id="round-off-select" style="display: none;">
+                        <option value="{{company.roundoff}}">f</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Round-Off Amount:</b></td>
+                <td colspan="12"><input type="number" id="round-off-amount" name="round_off_amount" readonly class="total-input"></td>
+            </tr>
+            <tr>
+                <td><b>Bill Total:</b></td>
+                <td colspan="12"><input type="number" id="bill-total" name="bill_total" readonly class="total-input"></td>
+            </tr>
+            <!-- Add Button -->
+            <tr>
+                <td colspan="13" style="text-align:center;">
+                    <button type="button" id="add-row-btn">Add</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+    <div class="details-section">
+        <h3>Other Details</h3>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="address">Invoice Address</label>
+                <textarea id="address" rows="3" name="address" ></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="delivery-address">Delivery Address</label>
+                <textarea id="delivery-address" rows="2" name="delivery_address"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="terms">Terms and Condition</label>
+                <textarea id="terms" rows="2" name="terms_and_conditions">{{ company.salesterms }}</textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="bank-details">Bank Details</label>
+                <textarea id="bank-details" rows="2" name="bankdetails">{{ company.bankdetails }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <label for="active">Active</label>
+                <input type="checkbox" id="active" checked name="is_active">
+            </div>
+        </div>
+
+        <div class="save-button">
+            <button type="submit">Save</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<script>
+    // Function to calculate the amount, GST, and totals for a row with TI Inclusion/Exclusion logic
+    function calculateAmount(row) {
+        const rate = parseFloat(row.querySelector('.rate').value) || 0;
+        const qty = parseInt(row.querySelector('.qty').value) || 1; // Default qty is 1
+        const gstPercentage = parseFloat(row.querySelector('.gst').value) || 0;
+        const amt = rate * qty;
+        row.querySelector('.amt').value = amt.toFixed(2); // Display AMT
+
+        const tiIncluded = row.querySelector('.ti').checked;
+        let bRate, subtotal, sgst, cgst, totalGST;
+
+        row.querySelector('.sgst-percent').value = (gstPercentage / 2).toFixed(2);
+        row.querySelector('.cgst-percent').value = (gstPercentage / 2).toFixed(2);
+
+        if (tiIncluded) {
+            bRate = amt / (1 + gstPercentage / 100);
+            sgst = (bRate * (gstPercentage / 2)) / 100;
+            cgst = sgst;
+        } else {
+            bRate = amt;
+            sgst = (amt * (gstPercentage / 2)) / 100;
+            cgst = sgst;
+        }
+
+        totalGST = sgst + cgst;
+        row.querySelector('.sgst').value = sgst.toFixed(2);
+        row.querySelector('.cgst').value = cgst.toFixed(2);
+
+        subtotal = bRate + totalGST;
+        row.querySelector('.b-rate').value = bRate.toFixed(2);
+        row.querySelector('.total-gst').value = totalGST.toFixed(2);
+        row.querySelector('.st').value = subtotal.toFixed(2);
+
+        updateOverallTotal();
+    }
+
+    // Function to update the overall total for Sub.Total and Bill Total
+    function updateOverallTotal() {
+        let totalAmount = 0;
+        let totalGST = 0;
+
+        document.querySelectorAll('#item-table-body tr').forEach(row => {
+            const subtotal = parseFloat(row.querySelector('.st').value) || 0;
+            const gstAmount = parseFloat(row.querySelector('.total-gst').value) || 0;
+            totalAmount += subtotal;
+            totalGST += gstAmount;
+        });
+
+        // Check the round-off selection before performing the round-off calculation
+        const roundOffSelection = document.getElementById('round-off-select').value;
+
+        let roundOffAmount = 0;
+        if (roundOffSelection === "normal-roundoff") { // Only perform rounding when "normal" is selected
+            const decimalPart = totalAmount - Math.floor(totalAmount);
+            if (decimalPart >= 0.50) {
+                roundOffAmount = 1 - decimalPart;  // Round up
+            } else {
+                roundOffAmount = -decimalPart;  // Round down
+            }
+        }
+
+        const billTotal = totalAmount + roundOffAmount;
+
+        // Update values in the UI
+        document.getElementById('sub-total').value = totalAmount.toFixed(2);
+        document.getElementById('round-off-amount').value = roundOffAmount.toFixed(2); // Display Round-off amount (decimal part)
+        document.getElementById('bill-total').value = billTotal.toFixed(2);  // Bill Total after rounding
+    }
+
+    // Function to fetch item details
+    function fetchItemDetails(inputField) {
+        const itemName = inputField.value.trim();
+        const row = inputField.closest('tr');
+
+        if (itemName) {
+            fetch(`/get-item-details/?itemname=${encodeURIComponent(itemName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(`Error: ${data.error}`);
+                    } else {
+                        row.querySelector('.item-description').value = data.description || '';
+                        row.querySelector('.gst').value = data.gst || '';
+                        row.querySelector('.rate').value = data.rate || '';
+                        calculateAmount(row);
+                    }
+                })
+                .catch(error => {
+                    alert('An error occurred while fetching item details.');
+                });
+        } else {
+            alert('Please enter a valid item name.');
+        }
+    }
+
+    // Initialize table with 10 default rows
+    function initializeTable() {
+        const tableBody = document.getElementById('item-table-body');
+        for (let i = 0; i < 10; i++) {
+            addNewRow(tableBody);
+        }
+    }
+
+    // Function to add a new row
+    function addNewRow(tableBody) {
+        const maxRows = 20; // Max rows allowed
+        const currentRowCount = tableBody.getElementsByClassName('item-row').length;
+
+        if (currentRowCount < maxRows) {
+            const newRow = document.createElement('tr');
+            newRow.classList.add('item-row');
+
+            newRow.innerHTML = `
+                <td>
+                    <input type="text" class="itemname-input" name="itemname_${currentRowCount}" placeholder="Enter item name">
+                    <textarea class="item-description" name="description_${currentRowCount}" rows="2" cols="28" readonly></textarea>
+                </td>
+                <td><input type="text" class="gst" name="gst_${currentRowCount}" readonly></td>
+                <td><input type="number" class="qty" name="qty_${currentRowCount}" value="1" min="1"></td>
+                <td><input type="text" class="rate" name="rate_${currentRowCount}" readonly></td>
+                <td><input type="text" class="amt" name="amt_${currentRowCount}" readonly></td>
+                <td><input type="checkbox" class="ti" name="ti_${currentRowCount}"></td>
+                <td><input type="text" class="b-rate" name="b_rate_${currentRowCount}" readonly></td>
+                <td><input type="text" class="sgst-percent" name="sgst_percent_${currentRowCount}" readonly></td>
+                <td><input type="text" class="cgst-percent" name="cgst_percent_${currentRowCount}" readonly></td>
+                <td><input type="text" class="sgst" name="sgst_amount_${currentRowCount}" readonly></td>
+                <td><input type="text" class="cgst" name="cgst_amount_${currentRowCount}" readonly></td>
+                <td><input type="text" class="total-gst" name="total_gst_${currentRowCount}" readonly></td>
+                <td><input type="text" class="st" name="st_${currentRowCount}" readonly></td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            const itemNameInput = newRow.querySelector('.itemname-input');
+            itemNameInput.addEventListener('change', function () {
+                fetchItemDetails(itemNameInput);
+            });
+
+            const tiCheckbox = newRow.querySelector('.ti');
+            tiCheckbox.addEventListener('change', function () {
+                calculateAmount(newRow);
+            });
+
+            const qtyInput = newRow.querySelector('.qty');
+            qtyInput.addEventListener('input', function () {
+                calculateAmount(newRow);
+            });
+        } else {
+            alert('Maximum of 20 rows allowed!');
+        }
+    }
+
+    document.getElementById('add-row-btn').addEventListener('click', function () {
+        const tableBody = document.getElementById('item-table-body');
+        addNewRow(tableBody);
+    });
+
+    document.addEventListener('DOMContentLoaded', initializeTable);
+</script>
+
+<script>
+    function updateInvoicePrefix() {
+        // Get the invoice prefix from the company object
+        const invoicePrefix = "{{ company.invoice_no_prefix }}"; // Get the value from the template
+        const invoiceNumberInput = document.getElementById('invoice_number');
+        const invoicePrefixInput = document.getElementById('invoice_no_prefix');
+
+        // Update the invoice_no_prefix with the fetched invoice prefix and the updated invoice number
+        invoicePrefixInput.value = invoicePrefix + invoiceNumberInput.value;
+    }
+
+    // Call updateInvoicePrefix() immediately to sync on initial load
+    updateInvoicePrefix();
+</script>
+
+<!--<script>-->
+<!--    // Function to dynamically update the invoice_no_prefix field-->
+<!--    function updateInvoicePrefix() {-->
+<!--        // Get the invoice prefix field and invoice number field-->
+<!--        const invoicePrefixField = document.getElementById('invoice_no_prefix');-->
+<!--        const invoiceNumberField = document.getElementById('invoice_number');-->
+
+<!--        // Get the prefix from the backend (hardcoded here for demonstration)-->
+<!--        const prefix = "{{ invoice_no_prefix }}"; // Replace with your prefix logic-->
+
+<!--        // Update the invoice_no_prefix field dynamically-->
+<!--        invoicePrefixField.value = prefix + invoiceNumberField.value;-->
+<!--    }-->
+<!--</script>-->
+
+
+
+
+
+
+
+
+
+<!--<script>-->
+
+<!--        function updateValues() {-->
+<!--            // Get values from input fields-->
+<!--            var qty = parseFloat(document.getElementById('qty').value) || 1;-->
+<!--            var rate = parseFloat(document.getElementById('rate').value) || 0;-->
+<!--            var gst = parseFloat(document.getElementById('gst').value) || 0;-->
+
+<!--            // Logging to check values-->
+<!--            console.log("Qty:", qty, "Rate:", rate, "GST:", gst);-->
+
+<!--            // Calculate Amount (amt = qty * rate)-->
+<!--            var amt = qty * rate;-->
+<!--            document.getElementById('amt').value = amt.toFixed(2);-->
+
+<!--            // Calculate SGST% and CGST%-->
+<!--            var sgstPercent = gst / 2;-->
+<!--            var cgstPercent = gst / 2;-->
+<!--            document.getElementById('sgst-percent').value = sgstPercent.toFixed(2);-->
+<!--            document.getElementById('cgst-percent').value = cgstPercent.toFixed(2);-->
+
+<!--            // Calculate SGST and CGST-->
+<!--            var sgst = (amt * sgstPercent) / 100;-->
+<!--            var cgst = (amt * cgstPercent) / 100;-->
+<!--            document.getElementById('sgst').value = sgst.toFixed(2);-->
+<!--            document.getElementById('cgst').value = cgst.toFixed(2);-->
+
+<!--            // Calculate Total GST-->
+<!--            var totalGST = sgst + cgst;-->
+<!--            document.getElementById('total-gst').value = totalGST.toFixed(2);-->
+
+<!--            // Calculate Subtotal (amt + SGST + CGST)-->
+<!--            var subtotal = amt + sgst + cgst;-->
+<!--            document.getElementById('subtotal').value = subtotal.toFixed(2);-->
+
+<!--            // Update Bill Total-->
+<!--            var roundOff = parseFloat(document.getElementById('roff').value) || 0;-->
+<!--            var billTotal = subtotal + roundOff;-->
+<!--            document.getElementById('bill-total').value = billTotal.toFixed(2);-->
+<!--        }-->
+
+<!--        // Add event listeners for all input fields-->
+<!--        window.onload = function() {-->
+<!--            document.getElementById('qty').addEventListener('input', updateValues);-->
+<!--            document.getElementById('rate').addEventListener('input', updateValues);-->
+<!--            document.getElementById('gst').addEventListener('input', updateValues);-->
+<!--            document.getElementById('roff').addEventListener('input', updateValues);-->
+<!--        };-->
+
+<!--    document.getElementById('itemname').addEventListener('input', function() {-->
+<!--        var itemName = this.value;-->
+<!--        console.log('Searching for item: ', itemName);  // Debugging line to check input-->
+<!--        if (itemName) {-->
+<!--            fetch(`/get-item-details/?itemname=${itemName}`)-->
+<!--                .then(response => response.json())-->
+<!--                .then(data => {-->
+<!--                    console.log('Fetched data: ', data);  // Debugging line to check response-->
+<!--                    if (data.error) {-->
+<!--                        alert(data.error);  // Handle error if item is not found-->
+<!--                    } else {-->
+<!--                        // Populate the form fields with the fetched details-->
+<!--                        document.getElementById('itemname').value = data.itemname || '';  // If needed, fill itemname again-->
+<!--                        document.getElementById('description-1').value = data.description || '';-->
+<!--                        document.getElementById('gst').value = data.gst || '';-->
+<!--                        document.getElementById('rate').value = data.rate || '';-->
+<!--                    }-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error fetching item details:', error);-->
+<!--                });-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+<!--    <script>-->
+<!--    // Function to calculate the amount, SGST, CGST, total GST, and subtotal for a row-->
+<!--    function calculateAmount(row) {-->
+<!--        const rate = parseFloat(row.querySelector('.rate').value) || 0;-->
+<!--        const qty = parseInt(row.querySelector('.qty').value) || 1; // Default qty is 1-->
+<!--        const gstPercentage = parseFloat(row.querySelector('.gst').value) || 0;-->
+<!--        const isTaxIncluded = row.querySelector('.ti')?.checked || false; // Check if tax is included-->
+
+<!--        let amount;-->
+<!--        if (isTaxIncluded) {-->
+<!--            // If GST is included in the rate, adjust the rate to exclude GST-->
+<!--            amount = rate * qty / (1 + gstPercentage / 100); // Exclude GST from the rate-->
+<!--        } else {-->
+<!--            // If GST is excluded, calculate the total amount normally-->
+<!--            amount = rate * qty;-->
+<!--        }-->
+
+<!--        row.querySelector('.amt').value = amount.toFixed(2);-->
+
+<!--        // Calculate GST amounts-->
+<!--        const sgst = (amount * (gstPercentage / 100)) / 2;-->
+<!--        const cgst = sgst; // CGST is the same as SGST-->
+
+<!--        // Fill SGST and CGST fields-->
+<!--        row.querySelector('.sgst').value = sgst.toFixed(2);-->
+<!--        row.querySelector('.cgst').value = cgst.toFixed(2);-->
+
+<!--        // Calculate total GST-->
+<!--        const totalGST = sgst + cgst;-->
+<!--        row.querySelector('.total-gst').value = totalGST.toFixed(2);-->
+
+<!--        // Subtotal-->
+<!--        const subtotal = amount + totalGST;-->
+<!--        row.querySelector('.subtotal').value = subtotal.toFixed(2);-->
+
+<!--        // SGST% and CGST% values-->
+<!--        const sgstPercentage = gstPercentage / 2;-->
+<!--        const cgstPercentage = sgstPercentage;-->
+<!--        row.querySelector('.sgst-percent').value = sgstPercentage.toFixed(2);-->
+<!--        row.querySelector('.cgst-percent').value = cgstPercentage.toFixed(2);-->
+
+<!--        // Recalculate totals-->
+<!--        recalculateTotals();-->
+<!--    }-->
+
+<!--    // Recalculate the overall subtotal and bill total-->
+<!--    function recalculateTotals() {-->
+<!--        let subTotal = 0;-->
+
+<!--        // Loop through each row and calculate totals-->
+<!--        const rows = document.querySelectorAll('.item-row');-->
+<!--        rows.forEach(row => {-->
+<!--            const rowSubtotal = parseFloat(row.querySelector('.subtotal').value) || 0;-->
+<!--            subTotal += rowSubtotal;-->
+<!--        });-->
+
+<!--        // Fill the sub-total field-->
+<!--        document.getElementById('subTotal').value = subTotal.toFixed(2);-->
+
+<!--        // Handling rounding off (R.Off)-->
+<!--        const roff = parseFloat(document.getElementById('roff').value) || 0;-->
+<!--        const billTotal = subTotal - roff;-->
+<!--        document.getElementById('billTotal').value = billTotal.toFixed(2);-->
+<!--    }-->
+
+<!--    // Function to add a new row-->
+<!--    function addRow() {-->
+<!--        const tableBody = document.getElementById('tableBody');-->
+<!--        const newRow = document.createElement('tr');-->
+<!--        newRow.classList.add('item-row');-->
+
+<!--        // Populate new row with input fields (for item details)-->
+<!--        newRow.innerHTML = `-->
+<!--            <td><input type="text" class="itemname" oninput="fetchItemDetails(this)"></td>-->
+<!--            <td><input type="text" class="description"></td>-->
+<!--            <td><input type="number" class="qty" value="1" oninput="calculateAmount(this.parentElement.parentElement)"></td>  &lt;!&ndash; Default qty is 1 &ndash;&gt;-->
+<!--            <td><input type="text" class="rate" oninput="calculateAmount(this.parentElement.parentElement)"></td>-->
+<!--            <td><input type="text" class="amt" readonly></td>-->
+<!--            <td><input type="text" class="sgst-percent" readonly></td>-->
+<!--            <td><input type="text" class="cgst-percent" readonly></td>-->
+<!--            <td><input type="text" class="sgst" readonly></td>-->
+<!--            <td><input type="text" class="cgst" readonly></td>-->
+<!--            <td><input type="text" class="total-gst" readonly></td>-->
+<!--            <td><input type="text" class="subtotal" readonly></td>-->
+<!--        `;-->
+
+<!--        tableBody.appendChild(newRow);-->
+<!--    }-->
+
+<!--    // Function to fetch item details for a specific row-->
+<!--    function fetchItemDetails(inputField) {-->
+<!--        const itemName = inputField.value;-->
+<!--        const row = inputField.parentElement.parentElement;-->
+
+<!--        console.log('Searching for item: ', itemName); // Debugging line to check input-->
+<!--        if (itemName) {-->
+<!--            fetch(`/get-item-details/?itemname=${itemName}`)-->
+<!--                .then(response => response.json())-->
+<!--                .then(data => {-->
+<!--                    console.log('Fetched data: ', data); // Debugging line to check response-->
+<!--                    if (data.error) {-->
+<!--                        alert(data.error); // Handle error if item is not found-->
+<!--                    } else {-->
+<!--                        // Populate the row fields with the fetched details-->
+<!--                        row.querySelector('.description').value = data.description || '';-->
+<!--                        row.querySelector('.gst').value = data.gst || '';-->
+<!--                        row.querySelector('.rate').value = data.rate || '';-->
+<!--                        calculateAmount(row); // Recalculate values for the row-->
+<!--                    }-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error fetching item details:', error);-->
+<!--                });-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Function to remove the last row-->
+<!--    function removeRow() {-->
+<!--        const tableBody = document.getElementById('tableBody');-->
+<!--        if (tableBody.children.length > 0) {-->
+<!--            tableBody.removeChild(tableBody.lastChild);-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Add event listeners for adding/removing rows-->
+<!--    document.getElementById('add-row').addEventListener('click', addRow);-->
+<!--    document.getElementById('remove-row').addEventListener('click', removeRow);-->
+
+<!--    // Initialize first row-->
+<!--    addRow(); // Automatically add a row on page load-->
+<!--</script>-->
+
+
+<script>
+    document.getElementById('select-contact').addEventListener('change', function () {
+        const contactId = this.value;
+        if (contactId) {
+            // Make an AJAX call to fetch contact details
+            fetch(`/get-contact-details/${contactId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Populate the respective fields with fetched data
+                        document.getElementById('contact-name').value = data.data.contact_name;
+                        document.getElementById('mobile').value = data.data.mobile;
+                        document.getElementById('contact-gst').value = data.data.gst_number;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching contact details:', error);
+                });
+        } else {
+            // Clear fields if no contact is selected
+            document.getElementById('contact-name').value = '';
+            document.getElementById('mobile').value = '';
+            document.getElementById('contact-gst').value = '';
+        }
+    });
+
+</script>
+
+
+
+
+
+  <script>
+    function fetchAddress(selectElement) {
+        // Get the selected option element
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+
+        // Get the address from the data attribute of the selected option
+        var address = selectedOption.getAttribute('data-address');
+
+        // Find the invoice address textarea and set its value
+        document.getElementById('address').value = address;
+    }
+</script>
+
+
+<!--<script>-->
+<!--    // Function to calculate the amount, GST, and totals for a row-->
+<!--    function calculateAmount(row) {-->
+<!--        const rate = parseFloat(row.querySelector('.rate').value) || 0;-->
+<!--        const qty = parseInt(row.querySelector('.qty').value) || 1; // Default qty is 1-->
+<!--        const gstPercentage = parseFloat(row.querySelector('.gst').value) || 0;-->
+
+<!--        let amount = rate * qty;-->
+
+<!--        // Update amount field-->
+<!--        row.querySelector('.amt').value = amount.toFixed(2);-->
+
+<!--        // Calculate GST amounts-->
+<!--        const sgst = (amount * gstPercentage) / 100 / 2;-->
+<!--        const cgst = sgst;-->
+
+<!--        // Update SGST and CGST fields-->
+<!--        row.querySelector('.sgst').value = sgst.toFixed(2);-->
+<!--        row.querySelector('.cgst').value = cgst.toFixed(2);-->
+
+<!--        // Update total GST field-->
+<!--        const totalGST = sgst + cgst;-->
+<!--        row.querySelector('.total-gst').value = totalGST.toFixed(2);-->
+
+<!--        // Update subtotal-->
+<!--        const subtotal = amount + totalGST;-->
+<!--        row.querySelector('.subtotal').value = subtotal.toFixed(2);-->
+<!--    }-->
+
+<!--    // Function to fetch item details based on the item name-->
+<!--    function fetchItemDetails(inputField) {-->
+<!--        const itemName = inputField.value;-->
+<!--        const row = inputField.closest('tr');-->
+
+<!--        if (itemName) {-->
+<!--            fetch(`/get-item-details/?itemname=${itemName}`)-->
+<!--                .then(response => response.json())-->
+<!--                .then(data => {-->
+<!--                    if (data.error) {-->
+<!--                        alert(data.error); // Handle error if item is not found-->
+<!--                    } else {-->
+<!--                        // Populate the row fields with the fetched details-->
+<!--                        row.querySelector('.item-description').value = data.description || '';-->
+<!--                        row.querySelector('.gst').value = data.gst || '';-->
+<!--                        row.querySelector('.rate').value = data.rate || '';-->
+<!--                        calculateAmount(row); // Recalculate values for the row-->
+<!--                    }-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error fetching item details:', error);-->
+<!--                });-->
+<!--        }-->
+<!--    }-->
+
+<!--    // Function to add a new row-->
+<!--    document.getElementById('add-row-btn').addEventListener('click', function () {-->
+<!--        const tableBody = document.getElementById('item-table-body');-->
+
+<!--        // Create a new row-->
+<!--        const newRow = document.createElement('tr');-->
+<!--        newRow.classList.add('item-row'); // Add a class for identification-->
+
+<!--        // Add the same structure as the first row-->
+<!--        newRow.innerHTML = `-->
+<!--            <td>-->
+<!--                <input type="text" id="itemname" name="itemname" class="itemname-input" required>-->
+<!--                <textarea id="description-1" name="description" class="item-description" rows="2" cols="28"></textarea>-->
+<!--            </td>-->
+<!--            <td><input type="text" class="gst" name="gst"></td>-->
+<!--            <td><input type="number" class="qty" name="qty" value="1" min="1"></td>-->
+<!--            <td><input type="text" class="rate" name="rate"></td>-->
+<!--            <td><input type="text" class="amt" name="amt" readonly></td>-->
+<!--            <td><input type="checkbox" class="ti" name="ti"></td>-->
+<!--            <td><input type="text" class="b-rate" name="b_rate" readonly></td>-->
+<!--            <td><input type="text" class="sgst-percent" name="sgst_percent" readonly></td>-->
+<!--            <td><input type="text" class="cgst-percent" name="cgst_percent" readonly></td>-->
+<!--            <td><input type="text" class="sgst" name="sgst_amount" readonly></td>-->
+<!--            <td><input type="text" class="cgst" name="cgst_amount" readonly></td>-->
+<!--            <td><input type="text" class="total-gst" name="total_gst" readonly></td>-->
+<!--            <td><input type="text" class="subtotal" name="st" readonly></td>-->
+<!--        `;-->
+
+<!--        // Append the new row to the table body-->
+<!--        tableBody.appendChild(newRow);-->
+
+<!--        // Add event listener for itemname input to fetch details-->
+<!--        const itemNameInput = newRow.querySelector('#itemname');-->
+<!--        itemNameInput.addEventListener('input', function () {-->
+<!--            fetchItemDetails(itemNameInput);-->
+<!--        });-->
+
+<!--        // Add event listeners for dynamic calculations-->
+<!--        const fields = ['.qty', '.rate', '.gst'];-->
+<!--        fields.forEach(selector => {-->
+<!--            newRow.querySelector(selector).addEventListener('input', () => calculateAmount(newRow));-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

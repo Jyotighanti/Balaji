@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Adjustment</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #d6e4f0 !important; /* Light background */
+            padding: 10px 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #004080;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #0055a5;
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 95%;
+            max-width: 2000px;
+            margin: 20px auto; /* Center the content */
+            display: flex;
+            gap: 20px; /* Space between containers */
+        }
+
+        /* Section Headers */
+        .main-container h3 {
+            background-color: #003366;
+            color: #fff;
+            padding: 10px;
+            margin: 0 0 10px 0;
+            font-size: 1.25rem;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /* Stock Adjustment Section */
+        .stock-adjustment {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+            flex: 1;
+            max-width: 1300px; /* Prevents it from stretching too wide */
+        }
+
+        /* List Stock Adjustments Section */
+        .list-stock-adjustments {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 3; /* Makes it wider than stock-adjustment */
+        }
+
+        /* Form Styling */
+        .stock-adjustment form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+        }
+
+        .form-row label {
+            flex: 0 0 150px;
+            font-weight: bold;
+        }
+
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .stock-adjustment button {
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .stock-adjustment button:hover {
+            background-color: #0055a5;
+        }
+
+        /* Table Styling */
+        .list-stock-adjustments table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .list-stock-adjustments table th,
+        .list-stock-adjustments table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .list-stock-adjustments table th {
+            background-color: #003366;
+            color: #fff;
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            font-size: 0.9em;
+        }
+
+        /* Prevent Bootstrap's container class from affecting main-container */
+        .main-container {
+            box-sizing: border-box;
+        }
+
+        /* Additional Specificity to Override Bootstrap if Needed */
+        .main-container .stock-adjustment,
+        .main-container .list-stock-adjustments {
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include Navbar -->
+    {% include 'nav.html' %}
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Stock Adjustment Section -->
+        <div class="stock-adjustment">
+            <h3>Stock Adjustment</h3>
+            <form>
+                <div class="form-row">
+                    <label for="item-name">Item Name:</label>
+                    <input type="text" id="item-name" name="item-name" required>
+                </div>
+
+                <div class="form-row">
+                    <label for="adjustment-type">Adjustment Type:</label>
+                    <select id="adjustment-type" name="adjustment-type" required>
+                        <option value="">Select</option>
+                        <option value="add">Add</option>
+                        <option value="remove">Remove</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label for="adjustment-date">Adjustment Date:</label>
+                    <input type="date" id="adjustment-date" name="adjustment-date" required>
+                </div>
+
+                <div class="form-row">
+                    <label for="qty">Qty:</label>
+                    <input type="number" id="qty" name="qty" min="1" required>
+                </div>
+
+                <div class="form-row">
+                    <label for="note">Note:</label>
+                    <textarea id="note" name="note" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <label for="is-active">Is Active:</label>
+                    <input type="checkbox" id="is-active" name="is-active" checked>
+                </div>
+
+                <button type="submit">Save</button>
+            </form>
+        </div>
+
+        <!-- List Stock Adjustments Section -->
+        <div class="list-stock-adjustments">
+            <h3>List Stock Adjustments</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item</th>
+                        <th>A.Type</th>
+                        <th>Date</th>
+                        <th>Qty</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Initially blank; rows will be populated by backend or JavaScript -->
+                    <tr>
+                        <td colspan="7" style="text-align: center;">No stock adjustments available yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Your Company. All Rights Reserved.
+    </footer>
+
+    <!-- Optional Bootstrap JavaScript (for dropdowns, etc.) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

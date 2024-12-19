@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Entry Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .expense-entry-container {
+            margin-top:20px;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            background-color:#2b6dad;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            padding:5px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns for each row */
+            align-items: center;
+            grid-auto-rows: minmax(50px, auto); /* Equal height rows */
+        }
+
+.form-grid label {
+    font-weight: bold;
+    display: inline-block;
+    text-align: right; /* Align label to the right */
+    padding-right: 10px;
+    margin-top: 10px; /* Add space above the label */
+}
+
+
+        .form-grid input,
+        .form-grid select,
+        .form-grid textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-grid textarea {
+            resize: none;
+        }
+
+
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background: #2b6dad;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+  {% include 'nav.html' %}
+    <div class="expense-entry-container">
+        <h2>Income Entry</h2>
+        <form>
+            <!-- Row 1: 4 elements in the same line -->
+            <div class="form-grid">
+                <div>
+                    <label for="company-gst">Company GST</label>
+                    <select id="company-gst">
+                        <option value="2952525NMB">2952525NMB</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+                </div>
+                <div>
+                    <label for="head">Select Head</label>
+                    <select id="head">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="expense-name">Income Name</label>
+                    <input type="text" id="expense-name">
+                </div>
+            </div>
+
+            <!-- Row 2: INV Number and INV Date in 2 columns -->
+            <div class="form-grid">
+                <div>
+                    <label for="inv-number">INV Number</label>
+                    <input type="text" id="inv-number">
+                </div>
+                <div>
+                    <label for="inv-date">INV Date</label>
+                    <input type="date" id="inv-date">
+                </div>
+            </div>
+
+            <!-- Row 3: Select Bank, Description, GST Number, GST Company Name in 1 row -->
+            <div class="form-grid">
+                <div>
+                    <label for="bank">Select Bank</label>
+                    <select id="bank">
+                        <option>Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="1"></textarea>
+                </div>
+                <div>
+                    <label for="gst-number">GST Number</label>
+                    <input type="text" id="gst-number">
+                </div>
+                <div>
+                    <label for="gst-company">GST Company Name</label>
+                    <input type="text" id="gst-company">
+                </div>
+            </div>
+
+            <!-- Row 4: GST Percentages in the same row -->
+            <div class="form-grid">
+                <div>
+                    <label for="gst-percentage">GST Percentage</label>
+                    <input type="text" id="gst-percentage">
+                </div>
+                <div>
+                    <label for="igst-percentage">IGST Percentage</label>
+                    <input type="text" id="igst-percentage">
+                </div>
+                <div>
+                    <label for="cgst-percentage">CGST Percentage</label>
+                    <input type="text" id="cgst-percentage">
+                </div>
+                <div>
+                    <label for="sgst-percentage">SGST Percentage</label>
+                    <input type="text" id="sgst-percentage">
+                </div>
+            </div>
+
+            <!-- Row 5: Base Amount, IGST Amount, CGST Amount, SGST Amount in the same row -->
+            <div class="form-grid">
+                <div>
+                    <label for="base-amount">Base Amount</label>
+                    <input type="text" id="base-amount">
+                </div>
+                <div>
+                    <label for="igst-amount">IGST Amount</label>
+                    <input type="text" id="igst-amount">
+                </div>
+                <div>
+                    <label for="cgst-amount">CGST Amount</label>
+                    <input type="text" id="cgst-amount">
+                </div>
+                <div>
+                    <label for="sgst-amount">SGST Amount</label>
+                    <input type="text" id="sgst-amount">
+                </div>
+            </div>
+
+            <!-- Row 6: Total Amount and Is Active in the same row -->
+            <div class="form-grid">
+                <div>
+                    <label for="total-amount">Total Amount</label>
+                    <input type="text" id="total-amount">
+                </div>
+                <div>
+                    <label for="is-active">Is Active</label>
+                    <input type="checkbox" id="is-active">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

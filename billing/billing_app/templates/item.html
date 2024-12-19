@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Billing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin: 10px auto;
+        }
+
+        .form-container, .right-container {
+            width: 60%;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #d1d1d1;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+            margin-left:0px;
+        }
+
+         .right-container {
+            width: 90%;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #d1d1d1;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+            margin-left:20px;
+        }
+
+        h2 {
+            text-align: left;
+            color: #004080;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #004080;
+            border-radius: 2px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0073e6;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .btn-group input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #004080;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+
+        .btn-group input[type="submit"]:hover {
+            background-color: #0059b3;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+{% include 'nav.html' %}
+
+    <div class="container">
+        <!-- Left side: Form container -->
+        <div class="form-container">
+            <h2>Item</h2>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="itemname">ITEM NAME:</label>
+                    <input type="text" id="itemname" name="itemname">
+                </div>
+                <div class="form-group">
+                    <label for="prefix">PREFIX:</label>
+                    <input type="text" id="prefix" name="prefix">
+                </div>
+                <div class="form-group">
+                    <label for="hsn">HSN / SAC CODE:</label>
+                    <input type="text" id="hsn" name="hsn">
+                </div>
+                <div class="form-group">
+                    <label for="uom">UOM :</label>
+                    <select id="uom" name="uom" required>
+                        <option value="">SELECT</option>
+                        {% for uom in uom %}
+                        <option value="{{ uom.uom }}">{{ uom.uom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="good">IS GOOD OR SERVICE :</label>
+                    <select id="good" name="good" required>
+                        <option value="">SELECT</option>
+                        <option value="goods">GOODS</option>
+                        <option value="services">SERVICES</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rate">Rate / Unit :</label>
+                    <input type="text" id="rate" name="rate">
+                </div>
+                <div class="form-group">
+                    <label for="ratefrom">Rate From :</label>
+                    <select id="ratefrom" name="ratefrom" required>
+                        <option value="">SELECT</option>
+                        <option value="frommaster">FROM - MASTER</option>
+                        <option value="previousinvoice">FROM-PREVIOUS-INVOICE</option>
+                        <option value="previouscustinvoice">FROM-PREVIOUS-CUST-INVOICE</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="edit_notes">Description:</label>
+                            <textarea id="edit_notes" class="form-control" name="desc" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="gst">GST:</label>
+                    <input type="text" id="gst" name="gst">
+                </div>
+                <div class="form-group">
+                    <label for="cgst">CGST:</label>
+                    <input type="text" id="cgst" name="cgst">
+                </div>
+                <div class="form-group">
+                    <label for="sgst">SGST:</label>
+                    <input type="text" id="sgst" name="sgst">
+                </div>
+                <div class="form-group">
+                    <label for="igst">IGST:</label>
+                    <input type="text" id="igst" name="igst">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" value="Active" id="active" checked name="active" {% if state.active == 'Active' %}checked{% endif %}>
+                    <label for="active">Is Active:</label>
+                </div>
+
+                <div class="btn-group">
+                    <input type="submit" value="Save">
+                </div>
+            </form>
+        </div>
+
+  <div class="right-container">
+    <h2>Item List</h2>
+<!-- Search Box and Button -->
+<form method="GET" action="{% url 'item' %}" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 20px;">
+    <label for="search" style="margin-right: 10px;">Item Name:</label>
+    <input type="text" id="search" name="search" style="margin-right: 10px; width: 420px;">
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+<!-- Example table for displaying state and GST details -->
+            <table>
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Prefix</th>
+            <th>HSN/SAC Code</th>
+            <th>GST</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.itemname }}</td>
+            <td>{{ item.prefix }}</td>
+            <td>{{ item.hsn }}</td>  <!-- HSN/SAC Code Column -->
+            <td>{{ item.gst }}</td>   <!-- GST Column -->
+            <td>{{ item.active }}</td>
+            <td>
+                <!-- Edit Button triggers the modal -->
+                <button class="btn btn-primary"
+                        onclick="openEditModal({{ item.id }}, '{{ item.itemname }}', '{{ item.prefix }}', '{{ item.hsn }}', '{{ item.uom }}', '{{ item.good }}', '{{ item.unit }}','{{ item.ratefrom }}', '{{ item.gst }}', '{{ item.cgst }}', '{{ item.sgst }}', '{{ item.igst }}', '{{ item.active }}', '{{ item.description }}')">
+                    Edit
+                </button>
+                <!-- Delete Button triggers item deletion -->
+                <button class="btn btn-danger"
+                        onclick="window.location.href='{% url 'delete_item' item.id %}'">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+        </div>
+    </div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Contact</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" action="{% url 'update_item' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="item_id" name="item_id">
+
+            <!-- First Row: Company Name and Prefix -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_itemname">Item Name:</label>
+                        <input type="text" id="edit_itemname" class="form-control" name="itemname" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_prefix">Prefix:</label>
+                        <input type="text" id="edit_prefix" class="form-control" name="prefix" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row: Contact Person and Mobile Number -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_hsncode">HSN Code:</label>
+                        <input type="text" id="edit_hsncode" class="form-control" name="hsncode" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_uom">UOM:</label>
+                        <select id="edit_uom" name="uom" required>
+                        <option value="">SELECT</option>
+                        {% for uom in uom %}
+                        <option value="{{ uom.uom }}">{{ uom.uom }}</option>
+                        {% endfor %}
+                    </select>                    </div>
+                </div>
+            </div>
+
+            <!-- Third Row: E-Mail and Website -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_good">IS GOOD OR SERVICE :</label>
+                    <select id="edit_good" name="good" required>
+                        <option value="">SELECT</option>
+                        <option value="goods">GOODS</option>
+                        <option value="services">SERVICES</option>
+                    </select>
+                           </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_rate">Rate / Unit:</label>
+                        <input type="text" id="edit_rate" class="form-control" name="rate">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fourth Row: Note 1 and Note 2 -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label for="edit_ratefrom">Rate From :</label>
+                    <select id="edit_ratefrom" name="ratefrom" required>
+                        <option value="">SELECT</option>
+                        <option value="frommaster">FROM - MASTER</option>
+                        <option value="previousinvoice">FROM-PREVIOUS-INVOICE</option>
+                        <option value="previouscustinvoice">FROM-PREVIOUS-CUST-INVOICE</option>
+                    </select>
+                    </div>
+                </div>
+                                <div class="col-md-6">
+
+                <div class="form-group">
+        <label for="edit_description">Description:</label>
+      <textarea name="description" id="edit_description"></textarea>
+
+    </div>
+                                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_gst">GST:</label>
+                        <input type="text" id="edit_gst" class="form-control" name="gst">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fifth Row: Invoice Address -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_cgst">CGST:</label>
+                        <input type="text" id="edit_cgst" class="form-control" name="cgst">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_sgst">SGST:</label>
+                        <input type="text" id="edit_sgst" class="form-control" name="sgst">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sixth Row: Is Active -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="edit_igst">IGST:</label>
+                        <input type="text" id="edit_igst" class="form-control" name="igst">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                       <div class="form-check">
+    <input type="checkbox" id="edit_active" name="active" class="form-check-input" {% if contact.active == 'Active' %}checked{% endif %}>
+    <label for="edit_active" class="form-check-label">Is Active:</label>
+</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // Function to populate the modal with item data
+    function openEditModal(id, itemname, prefix, hsn, uom, good, rate, ratefrom,gst, cgst, sgst, igst, active,description) {
+        document.getElementById('item_id').value = id;
+        document.getElementById('edit_itemname').value = itemname;
+        document.getElementById('edit_prefix').value = prefix;
+        document.getElementById('edit_hsncode').value = hsn;
+        document.getElementById('edit_uom').value = uom;
+        document.getElementById('edit_good').value = good;
+        document.getElementById('edit_rate').value = rate;
+        document.getElementById('edit_ratefrom').value = ratefrom;
+        document.getElementById('edit_gst').value = gst;
+        document.getElementById('edit_cgst').value = cgst;
+        document.getElementById('edit_sgst').value = sgst;
+        document.getElementById('edit_igst').value = igst;
+        document.getElementById('edit_active').checked = active === 'Active';
+        document.getElementById('edit_description').value = description;
+
+
+        $('#editModal').modal('show');
+    }
+</script>
+
+
+</body>
+</html>

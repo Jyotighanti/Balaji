@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Ledger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Style for the navigation bar */
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        /* Layout for the bank ledger section */
+        .bank-ledger {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 900px;
+            margin: 30px auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .bank-ledger header {
+            background-color: #0073aa;
+            color: #ffffff;
+            padding: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+        }
+        .bank-ledger form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        /* Adjust form-group for items on the same line */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 30%;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group select,
+        .form-group input {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        /* Style for the "Search" button with 30% width and centered */
+        .form-group.search-button {
+            flex: 0 0 30%;
+            margin: 0 auto;
+        }
+        .form-group button {
+            background-color: #0073aa;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;  /* Ensure it takes up 30% width */
+        }
+        .form-group button:hover {
+            background-color: #005f8d;
+        }
+        /* Footer Style */
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <div class="bank-ledger">
+        <header>BANK LEDGER</header>
+        <form>
+            <div class="form-group">
+                <label for="bank">Select Bank</label>
+                <select id="bank" name="bank">
+                    <option value="all">ALL</option>
+                    <option value="bank1">Bank 1</option>
+                    <option value="bank2">Bank 2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="from">FROM</label>
+                <input type="date" id="from" name="from">
+            </div>
+            <div class="form-group">
+                <label for="to">TO</label>
+                <input type="date" id="to" name="to">
+            </div>
+            <div class="form-group search-button">
+                <button type="button">Search</button>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+</html>

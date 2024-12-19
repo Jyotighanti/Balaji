@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Balance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .bank-ledger {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 500px;
+            margin: 30px auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .bank-ledger header {
+            background-color: #0073aa;
+            color: #ffffff;
+            padding: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+        }
+       .form-group {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: center; /* Center-align input horizontally */
+    margin-bottom: 20px; /* Add space between form groups */
+    margin-top:5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%; /* Inputs take up the full width of their container */
+    max-width: 200px; /* Optional: Set a maximum width for inputs */
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center; /* Center text inside the input */
+    box-sizing: border-box; /* Ensure padding is included in width */
+    margin-top:3px;
+}
+
+.form-group button {
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%; /* Buttons also take up the full width of their container */
+    max-width: 200px; /* Optional: Set a maximum width for buttons */
+    box-sizing: border-box;
+    align-self: center; /* Center-align the button */
+}
+
+.form-group button:hover {
+    background-color: #005f8d;
+}
+
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <div class="bank-ledger">
+        <header>Stock Balance</header>
+        <form>
+            <div class="form-group">
+                <label for="bank">Select Item</label>
+                <select id="bank" name="bank">
+                    <option value="all">ALL</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="button">Search</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

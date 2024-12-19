@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Billing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            width: 70%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #d1d1d1;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        h2 {
+            text-align: left;
+            color: #004080;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .form-group label {
+            flex: 1;
+            font-size: 14px;
+            padding-right: 10px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            flex: 3;
+            padding: 8px;
+            border: 1px solid #004080;
+            border-radius: 2px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #0073e6;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input[type="checkbox"] {
+            flex: 0;
+        }
+
+        .btn-group {
+            text-align: right;
+        }
+
+        .btn-group input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #004080;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+
+        .btn-group input[type="submit"]:hover {
+            background-color: #0059b3;
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .checkbox-group label {
+            flex: 1;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        /* Table to display state and GST number */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'nav.html' %}
+    <div class="form-container">
+        <h2>Company Master</h2>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" value="{{ company.companyname }}">
+            </div>
+            <div class="form-group">
+                <label for="printCompanyName">Print Company Name:</label>
+                <input type="text" id="printCompanyName" name="printCompanyName" value="{{ company.printcompanyname }}">
+            </div>
+            <div class="form-group">
+                <label for="address1">Address1:</label>
+                <input type="text" id="address1" name="address1" value="{{ company.address1 }}">
+            </div>
+            <div class="form-group">
+                <label for="address2">Address2:</label>
+                <input type="text" id="address2" name="address2" value="{{ company.address2 }}">
+            </div>
+            <div class="form-group">
+                <label for="address3">Address3:</label>
+                <input type="text" id="address3" name="address3" value="{{ company.address3 }}">
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode:</label>
+                <input type="text" id="pincode" name="pincode" value="{{ company.pincode }}">
+            </div>
+            <div class="form-group">
+                <label for="gstRegType">GST Reg. Type:</label>
+                <select id="gstRegType" name="gstRegType">
+                    <option value="REGISTER" {% if company.gsttype == 'REGISTER' %}selected{% endif %}>Registered</option>
+                    <option value="UNREGISTER" {% if company.gsttype == 'UNREGISTER' %}selected{% endif %}>Unregistered</option>
+                    <option value="REGISTER-COMPOSITION" {% if company.gsttype == 'REGISTER-COMPOSITION' %}selected{% endif %}>Registered Composition</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="noOfSalesEntry">No. of Sales Entry:</label>
+                <input type="number" id="noOfSalesEntry" name="noOfSalesEntry" value="{{ company.salesentry }}">
+            </div>
+            <div class="form-group">
+                <label for="defaultPlaceOfSupply">Default Place of Supply:</label>
+                <select id="defaultPlaceOfSupply" name="defaultPlaceOfSupply" class="form-control">
+                    <option value="">-----Select-----</option>
+                    {% for state in states %}
+                        <option value="{{ state.statename }}"
+                            {% if company and company.placesupply == state.statename %}selected{% endif %}>
+                            {{ state.statename }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="companyGST">Company GST Number:</label>
+                <input type="text" id="companyGST" name="companyGST" value="{{ company.GST }}" placeholder="Enter GST Number">
+            </div>
+            <div class="form-group">
+                <label for="saleTerms">Sale Terms:</label>
+                <textarea id="saleTerms" name="saleTerms" rows="3">{{ company.salesterms }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="bankDetails">Bank Print Details:</label>
+                <textarea id="bankDetails" name="bankDetails" rows="3">{{ company.bankdetails }}</textarea>
+            </div>
+             <div class="form-group">
+                <label for="invoice_no_prefix">Invoice No. Prefix:</label>
+              <input type="text" id="invoice_no_prefix" name="invoice_no_prefix" value="{{ company.invoice_no_prefix }}">
+            </div>
+            <div class="form-group">
+                <label for="dpi">DPI (For Print Purpose):</label>
+                <input type="number" id="dpi" name="dpi" value="{{ company.dpi }}">
+            </div>
+            <div class="form-group">
+                <label for="roundOff">Make Round Off:</label>
+                <select id="roundOff" name="roundOff">
+                    <option value="no-round-off" {% if company.roundoff == 'no-round-off' %}selected{% endif %}>No Round-Off</option>
+                    <option value="normal-roundoff" {% if company.roundoff == 'normal-roundoff' %}selected{% endif %}>Normal RoundOff(+, -)</option>
+<!--                    <option value="round-up" {% if company.roundoff == 'round-up' %}selected{% endif %}>Round-Up</option>-->
+<!--                    <option value="round-down" {% if company.roundoff == 'round-down' %}selected{% endif %}>Round-Down</option>-->
+                </select>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" value="true" id="saleInclTax" name="saleInclTax" {% if company.tax %}checked{% endif %}>
+                <label for="saleInclTax">Sale Inclusive of Tax:</label>
+                <input type="checkbox" value="true" id="showDiscount" name="showDiscount" {% if company.discount %}checked{% endif %}>
+                <label for="showDiscount">Show Discount on Sale Bill:</label>
+                <input type="checkbox" value="true" id="showGst" name="showGst" {% if company.showgst %}checked{% endif %}>
+                <label for="showGst">Show GST Details on Sale Bill:</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" value="true" id="showDescription" name="showDescription" {% if company.descbill %}checked{% endif %}>
+                <label for="showDescription">Show Description Details on Sale Bill:</label>
+                <input type="checkbox" value="true" id="printAfterSale" name="printAfterSale" {% if company.saleinvoice %}checked{% endif %}>
+                <label for="printAfterSale">Print After Sale Invoice:</label>
+                <input type="checkbox" value="true" id="showLogo" name="showLogo" {% if company.logo %}checked{% endif %}>
+                <label for="showLogo">Show   Logo:</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" value="true" id="autoBillNumber" name="autoBillNumber" {% if company.billNo %}checked{% endif %}>
+                <label for="autoBillNumber">Auto Bill Number:</label>
+            </div>
+            <div class="btn-group">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Success</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if success_message %}
+                            {{ success_message }}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            {% if success_message %}
+                $('#successModal').modal('show');
+            {% endif %}
+        });
+    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the dropdown and the GST input field
+        const stateDropdown = document.getElementById("defaultPlaceOfSupply");
+        const gstField = document.getElementById("companyGST");
+
+        // Add an event listener for the dropdown change event
+        stateDropdown.addEventListener("change", function () {
+            // Get the selected option
+            const selectedOption = stateDropdown.options[stateDropdown.selectedIndex];
+            const gstCode = selectedOption.getAttribute("data-gst"); // Fetch the GST code from data attribute
+
+            // If a GST code is found, update the GST field; otherwise, clear it
+            if (gstCode) {
+                gstField.value = gstCode;
+            } else {
+                gstField.value = ""; // Clear the field if no GST code is associated
+            }
+        });
+    });
+</script>
+</body>
+
+</html>
